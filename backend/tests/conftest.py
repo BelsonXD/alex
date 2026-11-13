@@ -24,6 +24,8 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setenv("ALEX_PROVIDER", "offline")
     monkeypatch.setenv("ALEX_DISABLE_SCHEDULER", "1")
     monkeypatch.setenv("ALEX_DISABLE_UPDATE_CHECK", "1")
+    monkeypatch.setenv("ALEX_GITHUB_REPO", "")
+    monkeypatch.setenv("ALEX_UPDATE_MANIFEST", "")
     for key in SECRET_KEYS:
         monkeypatch.setenv(key, "")
 

@@ -31,6 +31,7 @@ export function App() {
   const [uploading, setUploading] = useState(false);
   const [activeProject, setActiveProject] = useState<ProjectItem | null>(null);
   const [update, setUpdate] = useState<{ update_available?: boolean; detail?: string; notes?: string; latest?: string; version?: string } | null>(null);
+  const [updateLater, setUpdateLater] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [screenImage, setScreenImage] = useState("");
   const [screenActions, setScreenActions] = useState<ScreenAction[]>([]);
@@ -436,6 +437,11 @@ export function App() {
           <em>CPU {Math.round(status?.cpu_percent ?? 0)}%</em>
           <em>RAM {Math.round(status?.memory_percent ?? 0)}%</em>
           <em>{clock.toLocaleTimeString()}</em>
+          {update?.update_available && (
+            <button type="button" className="update-badge" onClick={() => setUpdateLater(false)}>
+              Update available
+            </button>
+          )}
         </div>
         <button
           type="button"
@@ -450,28 +456,35 @@ export function App() {
           Stop
         </button>
       </header>
-      {update?.update_available && (
-        <div className="update-banner">
-          <div>
-            <strong>Update available — {update.latest}</strong>
-            <p>{update.notes || update.detail}</p>
-          </div>
-          <button
-            type="button"
-            className="solid"
-            disabled={updating}
-            onClick={() => {
-              setUpdating(true);
-              void api("/api/system/update/apply", { method: "POST" })
-                .then(() => setToast("Updating. ALEX will restart itself."))
-                .catch((err: unknown) => {
-                  setUpdating(false);
-                  setToast(err instanceof Error ? err.message : "Update failed and the previous version was restored.");
-                });
-            }}
-          >
-            {updating ? "Updating" : "Update now"}
-          </button>
+      {update?.update_available && !updateLater && (
+        <div className="modal-back">
+          <section className="modal" role="dialog" aria-modal="true" aria-labelledby="update-title">
+            <p className="eyebrow">A new build is published</p>
+            <h2 id="update-title">Version {update.latest}</h2>
+            <p className="hint">You are running {update.version}. Update now keeps your keys, memories, and projects, and restores this version if the install fails.</p>
+            <pre>{(update.notes || update.detail || "No changelog was published.").slice(0, 700)}</pre>
+            <div className="modal-actions">
+              <button type="button" className="ghost" onClick={() => setUpdateLater(true)}>
+                Later
+              </button>
+              <button
+                type="button"
+                className="solid"
+                disabled={updating}
+                onClick={() => {
+                  setUpdating(true);
+                  void api("/api/system/update/apply", { method: "POST" })
+                    .then(() => setToast("Updating. ALEX will restart itself."))
+                    .catch((err: unknown) => {
+                      setUpdating(false);
+                      setToast(err instanceof Error ? err.message : "Update failed and the previous version was restored.");
+                    });
+                }}
+              >
+                {updating ? "Updating" : "Update now"}
+              </button>
+            </div>
+          </section>
         </div>
       )}
       </div>

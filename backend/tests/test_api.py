@@ -92,6 +92,47 @@ def test_docx_upload_extracts_text(client, tmp_path):
     assert "nominal" in upload.json()["excerpt"]
 
 
+def test_manifest_reports_a_newer_version(client, monkeypatch):
+    import json
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    from alex.config import get_settings
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            body = json.dumps(
+                {
+                    "version": "9.9.9",
+                    "zip_url": "http://127.0.0.1/alex-9.9.9.zip",
+                    "notes": "Simulated changelog: calmer core and a clearer update dialog.",
+                }
+            ).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, format, *args):  # noqa: A003
+            return
+
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        monkeypatch.setenv("ALEX_UPDATE_MANIFEST", f"http://127.0.0.1:{server.server_address[1]}/manifest.json")
+        get_settings.cache_clear()
+        status = client.get("/api/system/update").json()
+    finally:
+        server.shutdown()
+        get_settings.cache_clear()
+    assert status["update_available"] is True
+    assert status["latest"] == "9.9.9"
+    assert status["version"] == "1.1.1"
+    assert "Simulated changelog" in status["notes"]
+
+
 def test_update_check_explains_setup_when_unconfigured(client):
     status = client.get("/api/system/update").json()
     assert status["version"]

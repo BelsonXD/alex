@@ -61,7 +61,7 @@ class Settings(BaseSettings):
     alex_host: str = "127.0.0.1"
     alex_port: int = 8787
     alex_data_dir: str = ""
-    alex_github_repo: str = ""
+    alex_github_repo: str = "BelsonXD/alex"
     alex_update_manifest: str = ""
     alex_update_token: str = ""
 

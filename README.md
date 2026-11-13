@@ -103,14 +103,14 @@ This zip is the last copy you install by hand. After that, ALEX can replace itse
 
 1. Create a GitHub repository and push this project, or download it from the release you publish.
 2. For each version, publish a GitHub Release. Attach one file named exactly `alex.zip` (the same kind of archive as this one: source only, no `node_modules`, `.venv`, `.env`, or database). The release notes are the changelog ALEX shows.
-3. In ALEX, open Settings → Updates and set the repository to `yourname/alex`, then Save profile. If the repository is private, paste a fine-grained personal access token with **Contents: Read** and click Save token. Do not grant write access.
+3. The repository name is already **BelsonXD/alex**. Change it in Settings → Updates only if the release lives somewhere else. If the repository is private, paste a fine-grained personal access token with **Contents: Read** and click Save token. A public repository needs no token.
 4. Alternatively, host a JSON file and set its URL as the manifest:
 
 ```json
 {"version": "1.2.0", "zip_url": "https://example.com/alex-1.2.0.zip", "sha256": "<sha256 of the zip>", "notes": "What changed"}
 ```
 
-ALEX checks on startup and every 30 minutes. When a newer version exists, the bar says **Update available**. **Update now** downloads the zip, copies it over this folder, runs pip only if `requirements.txt` changed (binary wheels only), rebuilds the interface only if those files changed, and restarts. Your `.env`, database, memories, and projects stay in `%LOCALAPPDATA%\ALEX` and are not inside the zip. If the new version fails to install, the previous files are put back.
+ALEX checks on startup and every 30 minutes. When a newer version exists, a dialog shows the version, a short changelog, **Update now**, and **Later**. Later closes the dialog until the next time ALEX is opened. The header keeps an **Update available** badge so the dialog can be opened again. Update now downloads the zip, copies it over this folder, runs pip only if `requirements.txt` changed (binary wheels only), rebuilds the interface only if those files changed, and restarts. Your `.env`, database, memories, and projects stay in `%LOCALAPPDATA%\ALEX` and are not inside the zip. If the new version fails to install, the previous files are put back.
 
 I recommend the GitHub Release with an `alex.zip` asset. It works from a Windows PC with no extra server, and a public repository needs no token.
 

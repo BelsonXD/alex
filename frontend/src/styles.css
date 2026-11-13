@@ -76,6 +76,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
   padding: 8px 18px;
 }
 .stop.armed { box-shadow: 0 0 18px rgba(255, 51, 85, 0.8); }
+.update-badge {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+}
 .update-banner {
   display: flex;
   gap: 16px;

@@ -32,7 +32,7 @@ export function SettingsView({
   const [wakePhrase, setWakePhrase] = useState(settings.wake_phrase || "alex");
   const [computerUse, setComputerUse] = useState(settings.computer_use_enabled);
   const [maxSteps, setMaxSteps] = useState(String(settings.computer_use_max_steps || 12));
-  const [githubRepo, setGithubRepo] = useState(settings.github_repo || "");
+  const [githubRepo, setGithubRepo] = useState(settings.github_repo || "BelsonXD/alex");
   const [manifest, setManifest] = useState(settings.update_manifest || "");
   const [updateToken, setUpdateToken] = useState("");
   const [updateNote, setUpdateNote] = useState("");
@@ -268,7 +268,7 @@ export function SettingsView({
       </p>
       <label>
         GitHub repository (owner/name)
-        <input value={githubRepo} onChange={(event) => setGithubRepo(event.target.value)} placeholder="sahib/alex" />
+        <input value={githubRepo} onChange={(event) => setGithubRepo(event.target.value)} placeholder="BelsonXD/alex" />
       </label>
       <label>
         Or manifest URL
