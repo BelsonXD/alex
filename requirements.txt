@@ -1,5 +1,5 @@
-# Windows setup installs this file with pip --only-binary=:all:
-# Every package below publishes wheels for Python 3.11, 3.12, and 3.13.
+# Windows setup installs this file with pip --prefer-binary.
+# Compiled packages use wheels; pyautogui and its helpers are plain Python.
 # Do not use uvicorn[standard]: it pulls PyYAML, which has no wheel on
 # pre-release Pythons and then demands Microsoft Visual C++.
 fastapi>=0.115.0

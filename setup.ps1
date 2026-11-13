@@ -149,7 +149,7 @@ if ($needPip) {
     Write-Host "Installing Python packages from binary wheels..."
     & $venvPython -m pip install --upgrade pip
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-    & $venvPython -m pip install --disable-pip-version-check --only-binary=:all: -r $reqFile
+    & $venvPython -m pip install --disable-pip-version-check --prefer-binary -r $reqFile
     if ($LASTEXITCODE -ne 0) {
         Write-Host ""
         Write-Host "pip could not install every package from a Windows wheel."

@@ -129,7 +129,7 @@ def test_manifest_reports_a_newer_version(client, monkeypatch):
         get_settings.cache_clear()
     assert status["update_available"] is True
     assert status["latest"] == "9.9.9"
-    assert status["version"] == "1.1.1"
+    assert status["version"] == "1.1.2"
     assert "Simulated changelog" in status["notes"]
 
 

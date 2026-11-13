@@ -270,7 +270,7 @@ def _pip_install(install: Path) -> None:
     system = platform.system()
     venv_python = install / ".venv" / ("Scripts/python.exe" if system == "Windows" else "bin/python")
     python = str(venv_python if venv_python.exists() else Path(sys.executable))
-    command = [python, "-m", "pip", "install", "--disable-pip-version-check", "--only-binary=:all:", "-r", "requirements.txt"]
+    command = [python, "-m", "pip", "install", "--disable-pip-version-check", "--prefer-binary", "-r", "requirements.txt"]
     completed = subprocess.run(command, cwd=str(install), capture_output=True, text=True, encoding="utf-8", errors="replace")
     if completed.returncode != 0:
         raise RuntimeError((completed.stderr or completed.stdout or "pip failed")[:800])

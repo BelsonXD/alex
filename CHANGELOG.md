@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+- Setup installs packages with `pip --prefer-binary`. pyautogui and its small helpers only ship as plain Python, so the strict wheels-only rule blocked them. Compiled packages still use wheels, so Visual C++ is still not needed.
+
 ## 1.1.1
 
 - When an update is available, ALEX opens a dialog with the new version, a short changelog, Update now, and Later. Later hides the dialog until the next time ALEX is opened. An Update available badge stays in the header.
